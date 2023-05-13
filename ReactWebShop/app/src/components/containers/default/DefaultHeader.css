@@ -1,0 +1,13 @@
+.imageCategories{
+    height: 35px;
+}
+body{
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+.vertical-align-middle {
+    display: flex;
+    align-items: center;
+    
+    height: 100%;
+  }
