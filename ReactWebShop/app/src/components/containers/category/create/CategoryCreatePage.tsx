@@ -5,7 +5,9 @@ import { ICategoryCreate, ICategoryCreateError } from './types';
 import { useFormik } from 'formik';
 import * as yup from "yup";
 import classNames from 'classnames';
-import { ICategoryItem } from '../../types';
+import { ICategoryItem } from '../../default/types';
+import http from '../../../../http';
+
 
 const CategoryCreatePage = () => {
     // Список категорій
@@ -17,7 +19,7 @@ const CategoryCreatePage = () => {
     // запит на апі
     useEffect(() => {
         // Якщо search пустий витягує всі категорії, інакше витяг категорій по батьківському id
-        const result = axios.get<ICategoryItem[]>(`http://localhost:5107/api/Categories/list${search}`).then(resp => {
+        const result = http.get<ICategoryItem[]>(`api/Categories/list${search}`).then(resp => {
             // console.log("axios result", resp);
             setCategory(resp.data);
         }
@@ -30,14 +32,14 @@ const CategoryCreatePage = () => {
     });
 
     // Для вибору батьківської категорії
-    const HandleClickSelect = (name:string, id:number) => {
+    const HandleClickSelect = (name: string, id: number) => {
         values.parentId = id;
         console.log(name);
-        settextSelectCategory("Вибрано батьківську категорію: "+ name);
+        settextSelectCategory("Вибрано батьківську категорію: " + name);
         setSearch("");
     }
 
-    
+
     // якщо search пустий вивід всіх категорій в яких немає батьківського ел., інакше вивід всіх що знаходяться в category
     const dataView = ((search.length == 0) ? category?.filter(i => i.parentId == null) : category)?.sort((a, b) => a.priority - b.priority)?.map(cat =>
         <div className="d-flex justify-content-center vertical-align-middle mb-2 mt-2">
@@ -60,24 +62,28 @@ const CategoryCreatePage = () => {
 
     const initValues: ICategoryCreate = {
         name: '',
-        image: '',
+        image: null,
         description: '',
         priority: 0,
         parentId: 0
     }
     const navigate = useNavigate();
-    const {parentId} = initValues;
+    const { parentId } = initValues;
 
     const createSchema = yup.object({
         name: yup.string().required("Вкажіть назву"),
         description: yup.string().required("Вкажіть опис"),
-        image: yup.string().required("Вкажіть url"),
+        image: yup.mixed().required("Виберіть фото"),
         priority: yup.string().required("Вкажіть пріорітет")
     });
 
     const onSubmitFormikData = (values: ICategoryCreate) => {
         console.log("Formik send ", values);
-        axios.post('http://localhost:5107/api/Categories/create', values)
+        http.post('api/Categories/create', values, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        })
             .then(resp => {
                 console.log(values, resp);
                 navigate("/");
@@ -86,6 +92,12 @@ const CategoryCreatePage = () => {
                 console.log("Bad request", bad);
             })
     }
+    const onImageChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files != null) {
+          const file = e.target.files[0];
+          formik.setFieldValue(e.target.name, file);
+        }
+      }
 
     const formik = useFormik({
         initialValues: initValues,
@@ -97,7 +109,7 @@ const CategoryCreatePage = () => {
 
     return (
         <>
-        {/* Модал для вибору батьківської категорії */}
+            {/* Модал для вибору батьківської категорії */}
             <div className="modal fade" id="ModalSelect" aria-labelledby="ModalSelectLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -112,7 +124,7 @@ const CategoryCreatePage = () => {
                                     <p className='m-0'>- немає батьківського</p>
 
                                 </Link>
-                                <button onClick={()=>HandleClickSelect("",0)} className='justify-content-end float-end btn btn-outline-dark'>Вибрати</button>
+                                <button onClick={() => HandleClickSelect("", 0)} className='justify-content-end float-end btn btn-outline-dark'>Вибрати</button>
                             </div>
                             {dataView}
                         </div>
@@ -143,14 +155,13 @@ const CategoryCreatePage = () => {
 
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="image">URL фотографії:</label>
+                        <label htmlFor="image">Фотографія категорії:</label>
                         <input
-                            type="url"
+                            type="file"
                             id="image"
                             name="image"
                             className={classNames("form-control", { "is-invalid": errors.image && touched.image })}
-                            value={values.image}
-                            onChange={handleChange}
+                            onChange={onImageChangeHandler}
                             required
                         />
                         {errors.image && touched.image && <div className="invalid-feedback">

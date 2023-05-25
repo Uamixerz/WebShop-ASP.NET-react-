@@ -3,6 +3,8 @@ import "./DefaultHeader.css";
 import axios from "axios";
 import { ICategoryItem } from "./types";
 import { useEffect, useState } from "react";
+import http from "../../../http";
+import { APP_ENV } from "../../../env";
 
 const DefaultHeader = () => {
     // Список категорій
@@ -14,7 +16,7 @@ const DefaultHeader = () => {
     // запит на апі
     useEffect(() => {
         // Якщо search пустий витягує всі категорії, інакше витяг категорій по батьківському id
-        const result = axios.get<ICategoryItem[]>(`http://localhost:5107/api/Categories/list${search}`).then(resp => {
+        const result = http.get<ICategoryItem[]>(`api/Categories/list${search}`).then(resp => {
             // console.log("axios result", resp);
             setCategory(resp.data);
         }
@@ -31,8 +33,8 @@ const DefaultHeader = () => {
     // якщо search пустий вивід всіх категорій в яких немає батьківського ел., інакше вивід всіх що знаходяться в category
     const dataView = ((search.length == 0) ? category?.filter(i => i.parentId == null) : category)?.sort((a, b) => a.priority - b.priority)?.map(cat =>
         <div className="d-flex vertical-align-middle mb-2 mt-2">
-            <img src={cat.image} className="float-start imageCategories" alt="..." />
-            <Link onClick={() => setSearch(cat.id.toString())} className="page-link vertical-align-middle h-100 w-100 d-inline" to={""}>{cat.name} {cat.priority} <i className="float-end bi bi-caret-right-fill mt-1" style={{ height: 25 }}></i></Link>
+            <img src={`${APP_ENV.BASE_URL}uploads/` + cat.image} className="float-start imageCategories" alt="..." />
+            <Link onClick={() => setSearch(cat.id.toString())} className="page-link vertical-align-middle h-100 w-100 d-inline" to={""}>{cat.name}<i className="float-end bi bi-caret-right-fill mt-1" style={{ height: 25 }}></i></Link>
         </div>
     );
 
@@ -57,7 +59,7 @@ const DefaultHeader = () => {
 
             <nav className="navbar bg-body-tertiary fixed-top" >
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="#">Твій Магазин</a>
+                    <a className="navbar-brand" href="/">Твій Магазин</a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -69,7 +71,7 @@ const DefaultHeader = () => {
                         <div className="offcanvas-body">
                             <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
                                 <li className="nav-item">
-                                    <a className="nav-link active" aria-current="page" href="#">Home </a>
+                                    <a className="nav-link active" aria-current="page" href="/">Home </a>
 
                                 </li>
                                 <li className="nav-item">

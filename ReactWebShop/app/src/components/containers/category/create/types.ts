@@ -1,6 +1,6 @@
 export interface ICategoryCreate {
     name: string,
-    image: string,
+    image: File | null,
     description: string,
     priority: number,
     parentId: number
@@ -8,6 +8,6 @@ export interface ICategoryCreate {
 export interface ICategoryCreateError {
     name: string,
     description: string,
-    image: string,
+    image: File | string,
     priority: number
 }
