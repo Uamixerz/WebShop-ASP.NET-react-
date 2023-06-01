@@ -52,3 +52,15 @@ C:\homework\Homework\ASP\NewASP\WebShop\WebShop\obj\Debug\net6.0\refint\WebShop.
 C:\homework\Homework\ASP\NewASP\WebShop\WebShop\obj\Debug\net6.0\WebShop.pdb
 C:\homework\Homework\ASP\NewASP\WebShop\WebShop\obj\Debug\net6.0\WebShop.genruntimeconfig.cache
 C:\homework\Homework\ASP\NewASP\WebShop\WebShop\obj\Debug\net6.0\ref\WebShop.dll
+C:\homework\Homework\ASP\NewASP\WebShop\WebShop\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\homework\Homework\ASP\NewASP\WebShop\WebShop\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\homework\Homework\ASP\NewASP\WebShop\WebShop\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\homework\Homework\ASP\NewASP\WebShop\WebShop\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\homework\Homework\ASP\NewASP\WebShop\WebShop\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
+C:\homework\Homework\ASP\NewASP\WebShop\WebShop\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
+C:\homework\Homework\ASP\NewASP\WebShop\WebShop\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\homework\Homework\ASP\NewASP\WebShop\WebShop\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+C:\homework\Homework\ASP\NewASP\WebShop\WebShop\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+C:\homework\Homework\ASP\NewASP\WebShop\WebShop\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\homework\Homework\ASP\NewASP\WebShop\WebShop\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+C:\homework\Homework\ASP\NewASP\WebShop\WebShop\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll

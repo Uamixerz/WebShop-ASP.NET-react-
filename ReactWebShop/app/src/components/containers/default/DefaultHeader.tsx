@@ -80,6 +80,11 @@ const DefaultHeader = () => {
                                     </Link>
                                 </li>
                                 <li className="nav-item">
+                                    <Link className="nav-link active" aria-current="page" to="/register">
+                                        Регістрація
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
                                     <button type="button" className="btn p-0" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                         Категорії товарів
                                     </button>
