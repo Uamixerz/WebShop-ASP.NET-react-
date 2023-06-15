@@ -1,14 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import { ILogin } from "./types";
+import { ILogin, ILoginResult } from "./types";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import classNames from "classnames";
 import { useState } from "react";
 import http from "../../../../http";
+import jwtDecode from "jwt-decode";
+import { AuthUserActionType, IUser } from "../types";
+import { useDispatch } from "react-redux";
 
 const LoginPage = () => {
     const navigator = useNavigate();
-
+    const dispatch = useDispatch();
     const initValues: ILogin = {
         email: "",
         password: "",
@@ -25,9 +28,24 @@ const LoginPage = () => {
 
     const onSubmitFormikData = async (values: ILogin) => {
         try {
-            const result = await http.post("api/auth/login", values);
-            console.log("Auth saccess", result);
-            setMessage("");
+            const result = await http.post<ILoginResult>("api/auth/login", values, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then((resp) => {
+                const { token } = resp.data;
+                const user = jwtDecode(token) as IUser;
+                localStorage.token = token;
+                http.defaults.headers.common["Authorization"] = `Bearer ${localStorage.token}`;
+                dispatch({
+                    type: AuthUserActionType.LOGIN_USER,
+                    payload: {
+                      email: user.email,
+                      image: user.image,
+                    },
+                  });
+            });
+            
             navigator("/");
         }
         catch (error) { 
@@ -86,7 +104,7 @@ const LoginPage = () => {
                     </div>}
 
                     <div className="text-center">
-                        <p>Not a member? <a href="#!">Register</a></p>
+                        <p>Not a member? <a href="/register">Register</a></p>
                     </div>
                 </form>
             </div>

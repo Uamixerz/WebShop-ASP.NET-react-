@@ -7,6 +7,7 @@ import * as yup from "yup";
 import classNames from 'classnames';
 import { ICategoryItem } from '../../default/types';
 import http from '../../../../http';
+import { APP_ENV } from '../../../../env';
 
 
 const CategoryCreatePage = () => {
@@ -43,7 +44,7 @@ const CategoryCreatePage = () => {
     // якщо search пустий вивід всіх категорій в яких немає батьківського ел., інакше вивід всіх що знаходяться в category
     const dataView = ((search.length == 0) ? category?.filter(i => i.parentId == null) : category)?.sort((a, b) => a.priority - b.priority)?.map(cat =>
         <div className="d-flex justify-content-center vertical-align-middle mb-2 mt-2">
-            <img src={cat.image} className="float-start imageCategories" alt="..." />
+            <img src={`${APP_ENV.BASE_URL}uploads/100_` + cat.image} className="float-start imageCategories" alt="..." />
 
             <Link onClick={() => setSearch(cat.id.toString())} className="d-flex page-link vertical-align-middle h-100 w-100 d-inline" to={""}>
                 {cat.name}

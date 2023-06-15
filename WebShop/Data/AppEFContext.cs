@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebShop.Data.Entities;
 using WebShop.Data.Entities.Identity;
+using WebShop.Data.Entities.Product;
 
 namespace WebShop.Data
 {
@@ -16,7 +17,8 @@ namespace WebShop.Data
 
         }
         public DbSet<CategoryEntity> Categories { get; set; }
-
+        public DbSet<ProductImagesEntity> ProductImages { get; set; }
+        public DbSet<ProductEntity> Products { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

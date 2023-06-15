@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 using WebShop.Data;
 using WebShop.Data.Entities;
+using WebShop.Helpers;
 using WebShop.Models;
 
 namespace WebShop.Controllers
@@ -14,10 +16,13 @@ namespace WebShop.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
 
         private readonly AppEFContext _appEFContext;
-        public CategoriesController(AppEFContext appEFContext, IWebHostEnvironment hostingEnvironment)
+        private readonly IConfiguration _configuration;
+        public CategoriesController(AppEFContext appEFContext, IWebHostEnvironment hostingEnvironment, IConfiguration configuration)
         {
             _appEFContext = appEFContext;
             _hostingEnvironment = hostingEnvironment;
+            _configuration = configuration;
+
         }
         [HttpGet("list")]
         public async Task<IActionResult> List()
@@ -61,7 +66,6 @@ namespace WebShop.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromForm] CategoryCreateViewModel model)
         {
-            
             if (model.Image != null && model.Image.Length > 0)
             {
                 var uploadsFolder = Path.Combine(_hostingEnvironment.ContentRootPath, "Data", "Uploads");
@@ -69,9 +73,21 @@ namespace WebShop.Controllers
                 var fileName = Guid.NewGuid().ToString() + "_" + model.Image.FileName;
                 var filePath = Path.Combine(uploadsFolder, fileName);
 
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                //using (var fileStream = new FileStream(filePath, FileMode.Create))
+                //{
+                //    model.Image.CopyTo(fileStream);
+                //}
+                using (var ms = new MemoryStream())
                 {
-                    model.Image.CopyTo(fileStream);
+                   await model.Image.CopyToAsync(ms);
+                    var bmp = new Bitmap(Image.FromStream(ms));
+                    string []sizes = ((string)_configuration.GetValue<string>("ImageSizes")).Split(" ");
+                    foreach (var size in sizes)
+                    {
+                        var s = Convert.ToInt32(size);
+                        var saveImage = ImageWorker.CompressImage(bmp, s, s, false, false);
+                        saveImage.Save(Path.Combine(uploadsFolder, size + "_" + fileName));
+                    }
                 }
 
                 CategoryEntity category = new CategoryEntity

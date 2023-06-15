@@ -24,8 +24,8 @@ namespace WebShop.Data
                 {
                     CategoryEntity categoryEntity = new CategoryEntity()
                     {
-                        Name = "Category",
-                        Image = "1.jpg",
+                        Name = "New Category",
+                        Image = "No-image-found.jpg",
                         Priority = 0,
                         DateCreated = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc),
                         Description = "Description"

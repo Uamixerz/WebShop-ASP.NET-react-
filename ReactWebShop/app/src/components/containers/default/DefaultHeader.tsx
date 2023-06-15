@@ -1,17 +1,32 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import "./DefaultHeader.css";
 import axios from "axios";
 import { ICategoryItem } from "./types";
 import { useEffect, useState } from "react";
 import http from "../../../http";
 import { APP_ENV } from "../../../env";
+import { useSelector } from "react-redux";
+import { AuthUserActionType, IAuthUser } from "../auth/types";
+import { useDispatch } from "react-redux";
 
 const DefaultHeader = () => {
+
+    const navigator = useNavigate();
+    const { isAuth, user } = useSelector((store: any) => store.auth as IAuthUser);
     // Список категорій
     const [category, setCategory] = useState<ICategoryItem[]>();
     // id батьківської категорії
     const [search, setSearch] = useState("");
 
+    const dispatch = useDispatch();
+    
+    const logout = (e: any) => {
+        e.preventDefault();
+        localStorage.removeItem("token");
+        http.defaults.headers.common["Authorization"] = ``;
+        dispatch({type: AuthUserActionType.LOGOUT_USER});
+        navigator('/');
+    };
 
     // запит на апі
     useEffect(() => {
@@ -33,7 +48,7 @@ const DefaultHeader = () => {
     // якщо search пустий вивід всіх категорій в яких немає батьківського ел., інакше вивід всіх що знаходяться в category
     const dataView = ((search.length == 0) ? category?.filter(i => i.parentId == null) : category)?.sort((a, b) => a.priority - b.priority)?.map(cat =>
         <div className="d-flex vertical-align-middle mb-2 mt-2">
-            <img src={`${APP_ENV.BASE_URL}uploads/` + cat.image} className="float-start imageCategories" alt="..." />
+            <img src={`${APP_ENV.BASE_URL}uploads/100_` + cat.image} className="float-start imageCategories" alt="..." />
             <Link onClick={() => setSearch(cat.id.toString())} className="page-link vertical-align-middle h-100 w-100 d-inline" to={""}>{cat.name}<i className="float-end bi bi-caret-right-fill mt-1" style={{ height: 25 }}></i></Link>
         </div>
     );
@@ -79,11 +94,27 @@ const DefaultHeader = () => {
                                         Створити категорію
                                     </Link>
                                 </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link active" aria-current="page" to="/register">
-                                        Регістрація
-                                    </Link>
-                                </li>
+
+                                {!isAuth ?
+                                    <>
+                                        <li className="nav-item">
+                                            <Link className="nav-link active" aria-current="page" to="/register">
+                                                Регістрація
+                                            </Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link className="nav-link active" aria-current="page" to="/login">
+                                                Вхід
+                                            </Link>
+                                        </li>
+                                    </> :
+                                    <li className="nav-item">
+                                        <Link className="nav-link active" aria-current="page" to="/" onClick={logout}>
+                                            Вихід
+                                        </Link>
+                                    </li>
+                                }
+
                                 <li className="nav-item">
                                     <button type="button" className="btn p-0" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                         Категорії товарів

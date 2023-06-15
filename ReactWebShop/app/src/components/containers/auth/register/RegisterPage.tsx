@@ -156,7 +156,7 @@ const LoginPage = () => {
                     </div>}
 
                     <div className="text-center">
-                        <p>Not a member? <a href="#!">Register</a></p>
+                        <p>Have acc ? <a href="/login">Login</a></p>
                     </div>
                 </form>
             </div>

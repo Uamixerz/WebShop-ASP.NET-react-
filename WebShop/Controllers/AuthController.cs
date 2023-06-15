@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using WebShop.Data.Entities.Identity;
 using WebShop.Models.Auth;
 using WebShop.Constants;
-
+using WebShop.Abstract;
 
 namespace WebShop.Controllers
 {
@@ -17,9 +17,11 @@ namespace WebShop.Controllers
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly UserManager<UserEntity> _userManager;
+        private readonly IJwtTokenService _jwtTokenService;
 
-        public AuthController(UserManager<UserEntity> userManager, IWebHostEnvironment hostingEnvironment)
+        public AuthController(UserManager<UserEntity> userManager, IWebHostEnvironment hostingEnvironment, IJwtTokenService jwtTokenService)
         {
+            _jwtTokenService = jwtTokenService;
             _userManager = userManager;
             _hostingEnvironment = hostingEnvironment;
         }
@@ -54,6 +56,7 @@ namespace WebShop.Controllers
                     result = _userManager.AddToRoleAsync(userEntity, Roles.User).Result;
                     return Ok(result);
                 }
+                else
                 {
                     if (System.IO.File.Exists(filePath))
                     {
@@ -64,6 +67,24 @@ namespace WebShop.Controllers
             }
             else
                 return BadRequest("No file uploaded");
+        }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginViewModel model)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                    return BadRequest("Не вірно вказані дані");
+                if (!await _userManager.CheckPasswordAsync(user, model.Password))
+                    return BadRequest("Не вірно вказані дані");
+                var token = await _jwtTokenService.CreateToken(user);
+                return Ok(new { token });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
