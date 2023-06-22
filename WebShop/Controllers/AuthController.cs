@@ -8,6 +8,9 @@ using WebShop.Data.Entities.Identity;
 using WebShop.Models.Auth;
 using WebShop.Constants;
 using WebShop.Abstract;
+using Microsoft.Extensions.Configuration;
+using System.Drawing;
+using WebShop.Helpers;
 
 namespace WebShop.Controllers
 {
@@ -18,12 +21,14 @@ namespace WebShop.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly UserManager<UserEntity> _userManager;
         private readonly IJwtTokenService _jwtTokenService;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(UserManager<UserEntity> userManager, IWebHostEnvironment hostingEnvironment, IJwtTokenService jwtTokenService)
+        public AuthController(UserManager<UserEntity> userManager, IWebHostEnvironment hostingEnvironment, IJwtTokenService jwtTokenService, IConfiguration configuration)
         {
             _jwtTokenService = jwtTokenService;
             _userManager = userManager;
             _hostingEnvironment = hostingEnvironment;
+            _configuration = configuration;
         }
 
         [HttpPost("register")]
@@ -36,9 +41,17 @@ namespace WebShop.Controllers
                 var fileName = Guid.NewGuid().ToString() + "_" + model.Image.FileName;
                 var filePath = Path.Combine(uploadsFolder, fileName);
 
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                using (var ms = new MemoryStream())
                 {
-                    model.Image.CopyTo(fileStream);
+                    await model.Image.CopyToAsync(ms);
+                    var bmp = new Bitmap(Image.FromStream(ms));
+                    string[] sizes = ((string)_configuration.GetValue<string>("ImageSizes")).Split(" ");
+                    foreach (var size in sizes)
+                    {
+                        var s = Convert.ToInt32(size);
+                        var saveImage = ImageWorker.CompressImage(bmp, s, s, false, false);
+                        saveImage.Save(Path.Combine(uploadsFolder, size + "_" + fileName));
+                    }
                 }
 
                 var userEntity = new UserEntity()

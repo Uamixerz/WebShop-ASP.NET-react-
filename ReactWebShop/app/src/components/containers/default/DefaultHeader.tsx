@@ -19,12 +19,12 @@ const DefaultHeader = () => {
     const [search, setSearch] = useState("");
 
     const dispatch = useDispatch();
-    
+
     const logout = (e: any) => {
         e.preventDefault();
         localStorage.removeItem("token");
         http.defaults.headers.common["Authorization"] = ``;
-        dispatch({type: AuthUserActionType.LOGOUT_USER});
+        dispatch({ type: AuthUserActionType.LOGOUT_USER });
         navigator('/');
     };
 
@@ -75,9 +75,13 @@ const DefaultHeader = () => {
             <nav className="navbar bg-body-tertiary fixed-top" >
                 <div className="container-fluid">
                     <a className="navbar-brand" href="/">Твій Магазин</a>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
+                    <div className="d-flex justify-content-around justify-content-center align-items-center">
+                        <img src={`${APP_ENV.BASE_URL}uploads/50_` + user?.image} className="float-start imageCategories" alt="..." />
+                        <p className="m-0 pr-50" style={{paddingRight: '10px'}}>{user?.email}</p>
+                        <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
                     <div className="offcanvas offcanvas-end" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                         <div className="offcanvas-header">
                             <h5 className="offcanvas-title" id="offcanvasNavbarLabel">Меню</h5>
