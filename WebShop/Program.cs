@@ -9,10 +9,12 @@ using System.Text;
 using WebShop.Abstract;
 using WebShop.Data;
 using WebShop.Data.Entities.Identity;
+using WebShop.Mapper;
 using WebShop.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAutoMapper(typeof(AppMapProfile));
 // Add services to the container.
 builder.Services.AddDbContext<AppEFContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("MyConnectionDB")));

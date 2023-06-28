@@ -8,6 +8,7 @@ import { APP_ENV } from "../../../env";
 import { useSelector } from "react-redux";
 import { AuthUserActionType, IAuthUser } from "../auth/types";
 import { useDispatch } from "react-redux";
+import ModalDelete from "../../common/ModalDelete";
 
 const DefaultHeader = () => {
 
@@ -28,6 +29,14 @@ const DefaultHeader = () => {
         navigator('/');
     };
 
+    const onDelete = async (id:number) => {
+        try {
+            await http.delete(`api/categories/delete/${id}`);
+            setCategory(category?.filter(x=>x.id!==id));
+        } catch {
+            console.log("Delete bad request");
+        }
+    }
     // запит на апі
     useEffect(() => {
         // Якщо search пустий витягує всі категорії, інакше витяг категорій по батьківському id
@@ -49,7 +58,12 @@ const DefaultHeader = () => {
     const dataView = ((search.length == 0) ? category?.filter(i => i.parentId == null) : category)?.sort((a, b) => a.priority - b.priority)?.map(cat =>
         <div className="d-flex vertical-align-middle mb-2 mt-2">
             <img src={`${APP_ENV.BASE_URL}uploads/100_` + cat.image} className="float-start imageCategories" alt="..." />
+            
             <Link onClick={() => setSearch(cat.id.toString())} className="page-link vertical-align-middle h-100 w-100 d-inline" to={""}>{cat.name}<i className="float-end bi bi-caret-right-fill mt-1" style={{ height: 25 }}></i></Link>
+            &nbsp;&nbsp;
+            <ModalDelete id={cat.id} text={cat.name} deleteFunc={onDelete}/>
+            &nbsp;&nbsp;
+                <Link to={`/categories/edit/${cat.id}`} className={"btn btn-info"}>Редагувати</Link>
         </div>
     );
 

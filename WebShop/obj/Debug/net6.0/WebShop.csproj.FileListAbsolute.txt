@@ -71,3 +71,5 @@ C:\homework\Homework\ASP\NewASP\WebShop\WebShop\bin\Debug\net6.0\runtimes\unix\l
 C:\homework\Homework\ASP\NewASP\WebShop\WebShop\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
 C:\homework\Homework\ASP\NewASP\WebShop\WebShop\bin\Debug\net6.0\WebShop.xml
 C:\homework\Homework\ASP\NewASP\WebShop\WebShop\obj\Debug\net6.0\WebShop.xml
+C:\homework\Homework\ASP\NewASP\WebShop\WebShop\bin\Debug\net6.0\AutoMapper.dll
+C:\homework\Homework\ASP\NewASP\WebShop\WebShop\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
