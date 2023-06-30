@@ -12,7 +12,7 @@ import { store } from './store';
 import http from './http';
 import jwtDecode from 'jwt-decode';
 import { AuthUserActionType, IUser } from './components/containers/auth/types';
-import { useDispatch } from 'react-redux';
+
 
 
 const root = ReactDOM.createRoot(
@@ -29,6 +29,7 @@ if (localStorage.token) {
     payload: {
       email: user.email,
       image: user.image,
+      roles: user.roles
     },
   });
 }

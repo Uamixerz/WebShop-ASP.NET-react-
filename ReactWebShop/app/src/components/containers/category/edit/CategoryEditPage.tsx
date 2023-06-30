@@ -119,7 +119,7 @@ const CategoryEditPage = () => {
         })
             .then(resp => {
                 console.log(values, resp);
-                navigate("/");
+                navigate("/admin");
             })
             .catch(bad => {
                 console.log("Bad request", bad);

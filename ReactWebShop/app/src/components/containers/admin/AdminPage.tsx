@@ -4,10 +4,11 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import CategoryCreatePage from '../category/create/CategoryCreatePage';
 import CategoryListPage from '../category/list/categoryListPage';
+import { Link } from 'react-router-dom';
 
 const AdminPage = () => {
 
-    const [menuSelect, setMenuSelect] = useState("home");
+    
     const divRef = React.useRef<HTMLDivElement>(null);
     const [divWidth, setDivWidth] = React.useState(0);
 
@@ -18,7 +19,10 @@ const AdminPage = () => {
                 console.log(divRef.current.offsetWidth);
             }
         };
-    
+        if (divRef.current) {
+            setDivWidth(divRef.current.offsetWidth);
+            console.log(divRef.current.offsetWidth);
+        }
         // Додати прослуховувач події resize
         window.addEventListener('resize', handleResize);
     
@@ -40,20 +44,20 @@ const AdminPage = () => {
                             </a>
                             <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                                 <li className="nav-item">
-                                    <button onClick={() => setMenuSelect('home')} className="nav-link align-middle px-0">
+                                    <Link to={"/admin"} className="nav-link align-middle px-0">
                                         <i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline">Home</span>
-                                    </button>
+                                    </Link>
                                 </li>
 
                                 <li>
-                                    <button onClick={() => setMenuSelect('orders')} className="nav-link px-0 align-middle">
+                                    <Link to={"/admin/orders/list"} className="nav-link px-0 align-middle">
                                         <i className="fs-4 bi-table"></i> <span className="ms-1 d-none d-sm-inline">Замовлення</span>
-                                    </button>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <button onClick={() => setMenuSelect('users')} className="nav-link px-0 align-middle">
+                                    <Link to={"/admin/users/list"} className="nav-link px-0 align-middle">
                                         <i className="fs-4 bi-people"></i> <span className="ms-1 d-none d-sm-inline">Користувачі</span>
-                                    </button>
+                                    </Link>
                                 </li>
                                 <li>
                                     <a href="#submenu3" data-bs-toggle="collapse" className="nav-link px-0 align-middle">
@@ -61,10 +65,10 @@ const AdminPage = () => {
                                     </a>
                                     <ul className="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
                                         <li className="w-100">
-                                            <button onClick={() => setMenuSelect('categoryCreatePage')} className="nav-link px-0"> <span className="d-none d-sm-inline">Добавити категорію</span></button>
+                                            <Link  to={"/admin/categories/create"} className="nav-link px-0"> <span className="d-none d-sm-inline">Добавити категорію</span></Link>
                                         </li>
                                         <li>
-                                            <button onClick={() => setMenuSelect('categoryListPage')} className="nav-link px-0"> <span className="d-none d-sm-inline">Вивести список категорій</span></button>
+                                            <Link  to={"/admin/categories/list"} className="nav-link px-0"> <span className="d-none d-sm-inline">Вивести список категорій</span></Link>
                                         </li>
                                     </ul>
                                 </li>
@@ -75,10 +79,10 @@ const AdminPage = () => {
                                     </a>
                                     <ul className="collapse nav flex-column ms-1" id="submenu4" data-bs-parent="#menu">
                                         <li className="w-100">
-                                            <button onClick={() => setMenuSelect('productCreatePage')} className="nav-link px-0"> <span className="d-none d-sm-inline">Добавити продукт</span></button>
+                                            <Link  to={"/admin/product/add"} className="nav-link px-0"> <span className="d-none d-sm-inline">Добавити продукт</span></Link>
                                         </li>
                                         <li>
-                                            <button onClick={() => setMenuSelect('productListPage')} className="nav-link px-0"> <span className="d-none d-sm-inline">Вивести список продуктів</span></button>
+                                            <Link to={"/admin/product/list"} className="nav-link px-0"> <span className="d-none d-sm-inline">Вивести список продуктів</span></Link>
                                         </li>
                                     </ul>
                                 </li>
@@ -86,15 +90,6 @@ const AdminPage = () => {
                             <hr />
 
                         </div>
-                    </div>
-                    <div className="col py-3 text-center" style={{marginLeft: divWidth}}>
-                        {menuSelect === 'home' && <><h1>ADMIN PANEL</h1></>}
-                        {menuSelect === 'categoryCreatePage' && <CategoryCreatePage></CategoryCreatePage>}
-                        {menuSelect === 'categoryListPage' && <CategoryListPage></CategoryListPage>}
-                        {menuSelect === 'productCreatePage' && <></>}
-                        {menuSelect === 'productListPage' && <></>}
-                        {menuSelect === 'orders' && <></>}
-                        {menuSelect === 'users' && <></>}
                     </div>
                 </div>
             </div>

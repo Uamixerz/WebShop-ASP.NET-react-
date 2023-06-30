@@ -14,12 +14,15 @@ const DefaultHeader = () => {
 
     const navigator = useNavigate();
     const { isAuth, user } = useSelector((store: any) => store.auth as IAuthUser);
+    const isAdmin = user?.roles === "Admin";
     // Список категорій
     const [category, setCategory] = useState<ICategoryItem[]>();
     // id батьківської категорії
     const [search, setSearch] = useState("");
 
     const dispatch = useDispatch();
+
+
 
     const logout = (e: any) => {
         e.preventDefault();
@@ -29,10 +32,10 @@ const DefaultHeader = () => {
         navigator('/');
     };
 
-    const onDelete = async (id:number) => {
+    const onDelete = async (id: number) => {
         try {
             await http.delete(`api/categories/delete/${id}`);
-            setCategory(category?.filter(x=>x.id!==id));
+            setCategory(category?.filter(x => x.id !== id));
         } catch {
             console.log("Delete bad request");
         }
@@ -57,13 +60,14 @@ const DefaultHeader = () => {
     // якщо search пустий вивід всіх категорій в яких немає батьківського ел., інакше вивід всіх що знаходяться в category
     const dataView = ((search.length == 0) ? category?.filter(i => i.parentId == null) : category)?.sort((a, b) => a.priority - b.priority)?.map(cat =>
         <div className="d-flex vertical-align-middle mb-2 mt-2">
+
             <img src={`${APP_ENV.BASE_URL}uploads/100_` + cat.image} className="float-start imageCategories" alt="..." />
-            
+
             <Link onClick={() => setSearch(cat.id.toString())} className="page-link vertical-align-middle h-100 w-100 d-inline" to={""}>{cat.name}<i className="float-end bi bi-caret-right-fill mt-1" style={{ height: 25 }}></i></Link>
             &nbsp;&nbsp;
-            <ModalDelete id={cat.id} text={cat.name} deleteFunc={onDelete}/>
+            <ModalDelete id={cat.id} text={cat.name} deleteFunc={onDelete} />
             &nbsp;&nbsp;
-                <Link to={`/categories/edit/${cat.id}`} className={"btn btn-info"}>Редагувати</Link>
+            <Link to={`/categories/edit/${cat.id}`} className={"btn btn-info"}>Редагувати</Link>
         </div>
     );
 
@@ -79,24 +83,23 @@ const DefaultHeader = () => {
                         <div className="modal-body">
                             {dataView}
                         </div>
-                        <div className="modal-footer">
 
-                        </div>
                     </div>
                 </div>
             </div>
 
-            <nav className="navbar bg-body-tertiary fixed-top" >
+            <nav className="navbar-dark navbar bg-dark bg-body-tertiary fixed-top" >
                 <div className="container-fluid">
                     <a className="navbar-brand" href="/">Твій Магазин</a>
                     <div className="d-flex justify-content-around justify-content-center align-items-center">
-                        <img src={`${APP_ENV.BASE_URL}uploads/50_` + user?.image} className="float-start imageCategories" alt="..." />
-                        <p className="m-0 pr-50" style={{paddingRight: '10px'}}>{user?.email}</p>
+                        {user && <><img src={`${APP_ENV.BASE_URL}uploads/50_` + user?.image} className="float-start imageCategories" alt="..." />
+                            <p className="m-0 pr-50 text-bg-dark" style={{ paddingRight: '10px' }}>{user?.email}</p></>}
+
                         <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
                         </button>
                     </div>
-                    <div className="offcanvas offcanvas-end" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div className="offcanvas offcanvas-end text-bg-dark" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                         <div className="offcanvas-header">
                             <h5 className="offcanvas-title" id="offcanvasNavbarLabel">Меню</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -107,12 +110,6 @@ const DefaultHeader = () => {
                                     <a className="nav-link active" aria-current="page" href="/">Home </a>
 
                                 </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link active" aria-current="page" to="/categories/create">
-                                        Створити категорію
-                                    </Link>
-                                </li>
-
                                 {!isAuth ?
                                     <>
                                         <li className="nav-item">
@@ -132,7 +129,11 @@ const DefaultHeader = () => {
                                         </Link>
                                     </li>
                                 }
-
+                                {isAdmin && <li className="nav-item">
+                                        <Link className="nav-link active" aria-current="page" to="/admin">
+                                            Адмін панель
+                                        </Link>
+                                    </li>}
                                 <li className="nav-item">
                                     <button type="button" className="btn p-0" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                         Категорії товарів
