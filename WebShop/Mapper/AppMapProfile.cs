@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using WebShop.Data.Entities;
 using WebShop.Data.Entities.Identity;
+using WebShop.Data.Entities.Product;
 using WebShop.Models;
+using WebShop.Models.Items;
 using WebShop.Models.Users;
 
 namespace WebShop.Mapper
@@ -22,6 +24,10 @@ namespace WebShop.Mapper
                 .ForMember(x => x.Email, opt => opt.MapFrom(x => x.User.Email))
                 .ForMember(x => x.Id, opt => opt.MapFrom(x => x.User.Id))
                 .ForMember(x => x.Image, opt => opt.MapFrom(x => x.User.Image));
+            CreateMap<ProductImagesEntity, ProductImageItemViewModel>().ForMember(x => x.Name, opt => opt.MapFrom(x=>x.UrlImage));
+            //CreateMap<ProductEntity, ProductGetViewModel>().ForMember(x=> x.images, opt => opt.MapFrom(x=> x.Images));
+            
+            
         }
         
     }

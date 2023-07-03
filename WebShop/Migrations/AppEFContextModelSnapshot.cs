@@ -151,7 +151,7 @@ namespace WebShop.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("tblCategories");
+                    b.ToTable("tblCategories", (string)null);
                 });
 
             modelBuilder.Entity("WebShop.Data.Entities.Identity.RoleEntity", b =>
@@ -303,6 +303,9 @@ namespace WebShop.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
+                    b.Property<int>("Price")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Priority")
                         .HasColumnType("integer");
 
@@ -310,7 +313,7 @@ namespace WebShop.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("tblProducts");
+                    b.ToTable("tblProducts", (string)null);
                 });
 
             modelBuilder.Entity("WebShop.Data.Entities.Product.ProductImagesEntity", b =>
@@ -324,7 +327,7 @@ namespace WebShop.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductId")
                         .HasColumnType("integer");
 
                     b.Property<string>("UrlImage")
@@ -336,7 +339,7 @@ namespace WebShop.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("tblProductImages");
+                    b.ToTable("tblProductImages", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -416,9 +419,7 @@ namespace WebShop.Migrations
                 {
                     b.HasOne("WebShop.Data.Entities.Product.ProductEntity", "Product")
                         .WithMany("Images")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
 
                     b.Navigation("Product");
                 });

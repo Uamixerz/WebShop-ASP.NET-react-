@@ -13,7 +13,8 @@ namespace WebShop.Data.Entities.Product
         [Required, StringLength(255)]
         public string Name { get; set; }
         public int Priority { get; set; }
-        
+        public int Price { get; set; }
+
         [StringLength(4000)]
         public string Description { get; set; }
 

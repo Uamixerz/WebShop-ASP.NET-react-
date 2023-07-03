@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using WebShop.Data.Entities;
 using WebShop.Data.Entities.Identity;
 using WebShop.Data.Entities.Product;
+using System.Reflection.Emit;
 
 namespace WebShop.Data
 {
@@ -36,6 +37,10 @@ namespace WebShop.Data
                     .HasForeignKey(u => u.UserId)
                     .IsRequired();
             });
+            builder.Entity<ProductEntity>()
+            .HasMany(p => p.Images)
+            .WithOne(i => i.Product)
+            .HasForeignKey(i => i.ProductId);
         }
     }
 }

@@ -13,7 +13,8 @@ namespace WebShop.Data.Entities.Product
         public string UrlImage { get; set; }
 
         [ForeignKey("Product")]
-        public int ProductId { get; set; }
+        public int ? ProductId { get; set; }
         public virtual ProductEntity Product { get; set; }
+        
     }
 }

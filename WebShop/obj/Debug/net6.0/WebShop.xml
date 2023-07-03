@@ -52,6 +52,30 @@
         <member name="M:WebShop.Migrations.ProductstblimagesProducttbladd.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:WebShop.Migrations.ProductImagesproductnotrequire">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.ProductImagesproductnotrequire.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.ProductImagesproductnotrequire.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.ProductImagesproductnotrequire.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebShop.Migrations.addPricetoProduct">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.addPricetoProduct.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.addPricetoProduct.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.addPricetoProduct.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="P:WebShop.Models.Auth.LoginViewModel.Email">
             <summary>
             Електронна пошта
