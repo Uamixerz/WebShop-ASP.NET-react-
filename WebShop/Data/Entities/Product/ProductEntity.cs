@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using WebShop.Data.Entities.Basket;
+using WebShop.Data.Entities.Order;
 
 namespace WebShop.Data.Entities.Product
 {
@@ -23,5 +25,7 @@ namespace WebShop.Data.Entities.Product
         public virtual CategoryEntity Category { get; set; }
 
         public virtual ICollection<ProductImagesEntity> Images { get; set; }
+        public virtual ICollection<BasketEntity> Baskets { get; set; }
+        public virtual ICollection<OrderItemEntity> OrdersItem { get; set; }
     }
 }

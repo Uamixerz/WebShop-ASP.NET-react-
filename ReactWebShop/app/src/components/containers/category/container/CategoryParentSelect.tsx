@@ -28,7 +28,7 @@ const CategoryParentSelect: FC<IProductParentSelect> = ({setProductId}) => {
             }
             );
 
-    });
+    }, []);
     const HandleClickSelect = (name: string, id: number) => {
         console.log(name);
         settextSelectCategory("Вибрано батьківську категорію: " + name);

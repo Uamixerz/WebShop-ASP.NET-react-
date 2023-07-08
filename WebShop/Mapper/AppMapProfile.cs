@@ -17,13 +17,8 @@ namespace WebShop.Mapper
             CreateMap<CategoryCreateViewModel, CategoryEntity>()
                 .ForMember(x => x.ParentId, opt => opt.MapFrom(x=>x.ParentId==0?null : x.ParentId))
                 .ForMember(x => x.Image, opt => opt.Ignore());
-            CreateMap<UserRoleEntity, UserViewModel>()
-                .ForMember(x => x.Role, opt => opt.MapFrom(x => x.Role.Name))
-                .ForMember(x => x.FirstName, opt => opt.MapFrom(x => x.User.FirstName))
-                .ForMember(x => x.LastName, opt => opt.MapFrom(x => x.User.LastName))
-                .ForMember(x => x.Email, opt => opt.MapFrom(x => x.User.Email))
-                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.User.Id))
-                .ForMember(x => x.Image, opt => opt.MapFrom(x => x.User.Image));
+            CreateMap<UserEntity, UserViewModel>().ForMember(x=>x.Role, opt => opt.MapFrom(x => x.UserRoles.FirstOrDefault().Role));
+               
             CreateMap<ProductImagesEntity, ProductImageItemViewModel>().ForMember(x => x.Name, opt => opt.MapFrom(x=>x.UrlImage));
             //CreateMap<ProductEntity, ProductGetViewModel>().ForMember(x=> x.images, opt => opt.MapFrom(x=> x.Images));
             

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebShop.Data;
@@ -11,9 +12,11 @@ using WebShop.Data;
 namespace WebShop.Migrations
 {
     [DbContext(typeof(AppEFContext))]
-    partial class AppEFContextModelSnapshot : ModelSnapshot
+    [Migration("20230706125947_Add basket to DB")]
+    partial class AddbaskettoDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,70 +175,6 @@ namespace WebShop.Migrations
                     b.ToTable("tblCategories");
                 });
 
-            modelBuilder.Entity("WebShop.Data.Entities.Earth.CityEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<int>("RegionId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RegionId");
-
-                    b.ToTable("tblCities");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Earth.CountryEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tblCountries");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Earth.RegionEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CountryId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountryId");
-
-                    b.ToTable("tblRegiones");
-                });
-
             modelBuilder.Entity("WebShop.Data.Entities.Identity.RoleEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -357,177 +296,6 @@ namespace WebShop.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Order.OrderEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("OrderStatusId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("PayMethodId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("PayStatusId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<int>("PostOfficeId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderStatusId");
-
-                    b.HasIndex("PayMethodId");
-
-                    b.HasIndex("PayStatusId");
-
-                    b.HasIndex("PostOfficeId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("tblOrders");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Order.OrderItemEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Quintity")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderItemEntity");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Order.OrderStatusEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tblOrderStatus");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Order.PayMethodEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tblPayMethod");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Order.PayStatusEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tblPayStatus");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Order.PostOfficeEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("DeliveryId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PostIndex")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Street")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("DeliveryId");
-
-                    b.ToTable("tblPostOffices");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Product.DeliveryEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tblDelivery");
                 });
 
             modelBuilder.Entity("WebShop.Data.Entities.Product.ProductEntity", b =>
@@ -659,28 +427,6 @@ namespace WebShop.Migrations
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("WebShop.Data.Entities.Earth.CityEntity", b =>
-                {
-                    b.HasOne("WebShop.Data.Entities.Earth.RegionEntity", "Region")
-                        .WithMany("Cities")
-                        .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Region");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Earth.RegionEntity", b =>
-                {
-                    b.HasOne("WebShop.Data.Entities.Earth.CountryEntity", "Country")
-                        .WithMany("Regiones")
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Country");
-                });
-
             modelBuilder.Entity("WebShop.Data.Entities.Identity.UserRoleEntity", b =>
                 {
                     b.HasOne("WebShop.Data.Entities.Identity.RoleEntity", "Role")
@@ -698,85 +444,6 @@ namespace WebShop.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Order.OrderEntity", b =>
-                {
-                    b.HasOne("WebShop.Data.Entities.Order.OrderStatusEntity", "OrderStatus")
-                        .WithMany("Orders")
-                        .HasForeignKey("OrderStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebShop.Data.Entities.Order.PayMethodEntity", "PayMethod")
-                        .WithMany("Orders")
-                        .HasForeignKey("PayMethodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebShop.Data.Entities.Order.PayStatusEntity", "PayStatus")
-                        .WithMany("Orders")
-                        .HasForeignKey("PayStatusId");
-
-                    b.HasOne("WebShop.Data.Entities.Order.PostOfficeEntity", "PostOffice")
-                        .WithMany("Orders")
-                        .HasForeignKey("PostOfficeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebShop.Data.Entities.Identity.UserEntity", "User")
-                        .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OrderStatus");
-
-                    b.Navigation("PayMethod");
-
-                    b.Navigation("PayStatus");
-
-                    b.Navigation("PostOffice");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Order.OrderItemEntity", b =>
-                {
-                    b.HasOne("WebShop.Data.Entities.Order.OrderEntity", "Order")
-                        .WithMany("Items")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebShop.Data.Entities.Product.ProductEntity", "Product")
-                        .WithMany("OrdersItem")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Order.PostOfficeEntity", b =>
-                {
-                    b.HasOne("WebShop.Data.Entities.Earth.CityEntity", "City")
-                        .WithMany("PostOffices")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebShop.Data.Entities.Product.DeliveryEntity", "Delivery")
-                        .WithMany("Offices")
-                        .HasForeignKey("DeliveryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("City");
-
-                    b.Navigation("Delivery");
                 });
 
             modelBuilder.Entity("WebShop.Data.Entities.Product.ProductEntity", b =>
@@ -802,21 +469,6 @@ namespace WebShop.Migrations
                     b.Navigation("Children");
                 });
 
-            modelBuilder.Entity("WebShop.Data.Entities.Earth.CityEntity", b =>
-                {
-                    b.Navigation("PostOffices");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Earth.CountryEntity", b =>
-                {
-                    b.Navigation("Regiones");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Earth.RegionEntity", b =>
-                {
-                    b.Navigation("Cities");
-                });
-
             modelBuilder.Entity("WebShop.Data.Entities.Identity.RoleEntity", b =>
                 {
                     b.Navigation("UserRoles");
@@ -826,39 +478,7 @@ namespace WebShop.Migrations
                 {
                     b.Navigation("Baskets");
 
-                    b.Navigation("Orders");
-
                     b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Order.OrderEntity", b =>
-                {
-                    b.Navigation("Items");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Order.OrderStatusEntity", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Order.PayMethodEntity", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Order.PayStatusEntity", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Order.PostOfficeEntity", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("WebShop.Data.Entities.Product.DeliveryEntity", b =>
-                {
-                    b.Navigation("Offices");
                 });
 
             modelBuilder.Entity("WebShop.Data.Entities.Product.ProductEntity", b =>
@@ -866,8 +486,6 @@ namespace WebShop.Migrations
                     b.Navigation("Baskets");
 
                     b.Navigation("Images");
-
-                    b.Navigation("OrdersItem");
                 });
 #pragma warning restore 612, 618
         }

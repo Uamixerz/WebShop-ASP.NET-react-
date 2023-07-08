@@ -30,7 +30,12 @@ namespace WebShop.Controllers
         [HttpGet("list")]
         public async Task<IActionResult> List()
         {
-            var result = await _appEFContext.UserRoles.Select(x => _mapper.Map<UserViewModel>(x)).ToListAsync();
+            var result = await _appEFContext.Users
+    .Include(x => x.UserRoles)
+        .ThenInclude(ur => ur.Role)
+    .Select(x => _mapper.Map<UserViewModel>(x))
+    .ToListAsync();
+
 
             return Ok(result);
         }

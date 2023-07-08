@@ -53,7 +53,7 @@ const DefaultHeader = () => {
             }
             );
 
-    });
+    }, []);
 
 
     const textCategory = "Категорії"

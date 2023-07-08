@@ -4,6 +4,31 @@
         <name>WebShop</name>
     </assembly>
     <members>
+        <member name="P:WebShop.Data.Entities.Basket.BasketEntity.Quintity">
+            <summary>
+            Кількість товару
+            </summary>
+        </member>
+        <member name="P:WebShop.Data.Entities.Basket.BasketEntity.UserId">
+            <summary>
+            Користувач
+            </summary>
+        </member>
+        <member name="P:WebShop.Data.Entities.Basket.BasketEntity.ProductId">
+            <summary>
+            Продукт
+            </summary>
+        </member>
+        <member name="P:WebShop.Data.Entities.Order.OrderItemEntity.Quintity">
+            <summary>
+            Кількість товару
+            </summary>
+        </member>
+        <member name="P:WebShop.Data.Entities.Order.OrderItemEntity.ProductId">
+            <summary>
+            Продукт
+            </summary>
+        </member>
         <member name="T:WebShop.Migrations.createtblCategory">
             <inheritdoc />
         </member>
@@ -74,6 +99,66 @@
             <inheritdoc />
         </member>
         <member name="M:WebShop.Migrations.addPricetoProduct.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebShop.Migrations.AddbaskettoDB">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.AddbaskettoDB.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.AddbaskettoDB.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.AddbaskettoDB.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebShop.Migrations.Addorders">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.Addorders.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.Addorders.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.Addorders.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebShop.Migrations.minusMethodDelivery">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.minusMethodDelivery.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.minusMethodDelivery.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.minusMethodDelivery.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebShop.Migrations.settingsOrderItem">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.settingsOrderItem.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.settingsOrderItem.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.settingsOrderItem.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebShop.Migrations.settingsProductforOrder">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.settingsProductforOrder.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.settingsProductforOrder.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebShop.Migrations.settingsProductforOrder.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
         <member name="P:WebShop.Models.Auth.LoginViewModel.Email">

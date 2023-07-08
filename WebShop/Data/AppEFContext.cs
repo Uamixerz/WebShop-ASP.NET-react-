@@ -5,6 +5,9 @@ using WebShop.Data.Entities;
 using WebShop.Data.Entities.Identity;
 using WebShop.Data.Entities.Product;
 using System.Reflection.Emit;
+using WebShop.Data.Entities.Basket;
+using WebShop.Data.Entities.Earth;
+using WebShop.Data.Entities.Order;
 
 namespace WebShop.Data
 {
@@ -20,6 +23,21 @@ namespace WebShop.Data
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<ProductImagesEntity> ProductImages { get; set; }
         public DbSet<ProductEntity> Products { get; set; }
+
+        public DbSet<BasketEntity> Baskets { get; set; }
+
+        public DbSet<CityEntity> Cities { get; set; }
+        public DbSet<RegionEntity> Regiones { get; set; }
+        public DbSet<CountryEntity> Countries { get; set; }
+        public DbSet<DeliveryEntity> Deliveries { get; set; }
+        public DbSet<OrderEntity> Orders { get; set; }
+        public DbSet<OrderStatusEntity> OrderStatus { get; set; }
+        public DbSet<PayStatusEntity> PayStatus { get; set; }
+        public DbSet<PayMethodEntity> PayMethod { get; set; }
+
+        public DbSet<PostOfficeEntity> PostOffices { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -41,6 +59,11 @@ namespace WebShop.Data
             .HasMany(p => p.Images)
             .WithOne(i => i.Product)
             .HasForeignKey(i => i.ProductId);
+
+            builder.Entity<BasketEntity>(ur =>
+            {
+                ur.HasKey(ur => new { ur.UserId, ur.ProductId });
+            });
         }
     }
 }

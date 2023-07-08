@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebShop.Data;
@@ -11,9 +12,11 @@ using WebShop.Data;
 namespace WebShop.Migrations
 {
     [DbContext(typeof(AppEFContext))]
-    partial class AppEFContextModelSnapshot : ModelSnapshot
+    [Migration("20230708132919_minus Method Delivery")]
+    partial class minusMethodDelivery
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,6 +115,21 @@ namespace WebShop.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("OrderEntityOrderItemEntity", b =>
+                {
+                    b.Property<int>("ItemsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OrdersId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ItemsId", "OrdersId");
+
+                    b.HasIndex("OrdersId");
+
+                    b.ToTable("OrderEntityOrderItemEntity");
                 });
 
             modelBuilder.Entity("WebShop.Data.Entities.Basket.BasketEntity", b =>
@@ -382,6 +400,9 @@ namespace WebShop.Migrations
                     b.Property<int>("PostOfficeId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("ProductEntityId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
@@ -394,6 +415,8 @@ namespace WebShop.Migrations
                     b.HasIndex("PayStatusId");
 
                     b.HasIndex("PostOfficeId");
+
+                    b.HasIndex("ProductEntityId");
 
                     b.HasIndex("UserId");
 
@@ -408,9 +431,6 @@ namespace WebShop.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
@@ -418,8 +438,6 @@ namespace WebShop.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
 
                     b.HasIndex("ProductId");
 
@@ -631,6 +649,21 @@ namespace WebShop.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("OrderEntityOrderItemEntity", b =>
+                {
+                    b.HasOne("WebShop.Data.Entities.Order.OrderItemEntity", null)
+                        .WithMany()
+                        .HasForeignKey("ItemsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebShop.Data.Entities.Order.OrderEntity", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("WebShop.Data.Entities.Basket.BasketEntity", b =>
                 {
                     b.HasOne("WebShop.Data.Entities.Product.ProductEntity", "Product")
@@ -724,6 +757,10 @@ namespace WebShop.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WebShop.Data.Entities.Product.ProductEntity", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("ProductEntityId");
+
                     b.HasOne("WebShop.Data.Entities.Identity.UserEntity", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
@@ -743,19 +780,11 @@ namespace WebShop.Migrations
 
             modelBuilder.Entity("WebShop.Data.Entities.Order.OrderItemEntity", b =>
                 {
-                    b.HasOne("WebShop.Data.Entities.Order.OrderEntity", "Order")
-                        .WithMany("Items")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("WebShop.Data.Entities.Product.ProductEntity", "Product")
-                        .WithMany("OrdersItem")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Order");
 
                     b.Navigation("Product");
                 });
@@ -831,11 +860,6 @@ namespace WebShop.Migrations
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("WebShop.Data.Entities.Order.OrderEntity", b =>
-                {
-                    b.Navigation("Items");
-                });
-
             modelBuilder.Entity("WebShop.Data.Entities.Order.OrderStatusEntity", b =>
                 {
                     b.Navigation("Orders");
@@ -867,7 +891,7 @@ namespace WebShop.Migrations
 
                     b.Navigation("Images");
 
-                    b.Navigation("OrdersItem");
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

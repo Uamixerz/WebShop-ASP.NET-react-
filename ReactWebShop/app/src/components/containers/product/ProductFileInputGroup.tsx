@@ -10,7 +10,7 @@ import { APP_ENV } from "../../../env";
 
 interface ICategoryParentSelectProps {
     images: IUploadImageResult[];
-    setImages: (images: IUploadImageResult[], id:number) => void;
+    setImages: (images: IUploadImageResult[]) => void;
   }
   
   
@@ -39,7 +39,7 @@ const ProductFileInputGroup: FC<ICategoryParentSelectProps> = ({ images, setImag
             })
                 .then(resp => {
                     console.log(upload, resp);
-                    setImages([...images, resp.data], resp.data.id);
+                    setImages([...images, resp.data]);
                 })
                 .catch(bad => {
                     console.log("Bad request", bad);
@@ -51,7 +51,7 @@ const ProductFileInputGroup: FC<ICategoryParentSelectProps> = ({ images, setImag
     const onDeleteFileHandler = async (id: number) => {
         try {
             await http.delete(`api/product/RemoveImage/${id}`);
-            setImages(images?.filter(x => x.id !== id), -1);
+            setImages(images?.filter(x => x.id !== id));
         } catch {
             console.log("Delete bad request");
         }

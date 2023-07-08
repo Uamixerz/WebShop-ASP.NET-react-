@@ -64,15 +64,13 @@ namespace WebShop.Controllers
                     Price = model.Price, 
                     DateCreated = DateTime.UtcNow, 
                     CategoryId = model.categoryId };
+
                 _appEFContext.Add(product);
                 _appEFContext.SaveChanges();
                 foreach (var idImg in model.ImagesID)
                 {
                     var image = await _appEFContext.ProductImages.SingleOrDefaultAsync(x => x.Id == idImg);
                     image.ProductId = product.Id;
-                    if (product.Images == null)
-                        product.Images = new List<ProductImagesEntity>();
-                    product.Images.Add(image);
                 }
                 
                 _appEFContext.SaveChanges();
