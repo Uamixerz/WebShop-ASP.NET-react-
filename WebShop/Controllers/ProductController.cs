@@ -29,29 +29,36 @@ namespace WebShop.Controllers
         [HttpGet("list")]
         public async Task<IActionResult> List()
         {
+            var result = _mapper.Map<List<ProductGetHomePageViewModel>>(await _appEFContext.Products.Include(p => p.Images).ToListAsync());
+            return Ok(result);
+        }
+        [HttpGet("homePageList")]
+        public async Task<IActionResult> HomePageList()
+        {
 
-
-
-            var res = await _appEFContext.Products.ToListAsync();
-            //var result = await _appEFContext.Products.Select(x => _mapper.Map<ProductGetViewModel>(x)).ToListAsync();
-            var result = new List<ProductGetViewModel>();
-            foreach(var product in res)
-            {
-                result.Add(new ProductGetViewModel
-                {
-                    Name = product.Name,
-                    Description = product.Description,
-                    Price = product.Price,
-                    categoryId = (int)product.CategoryId,
-                    CategoryName = _appEFContext.Categories.Where(x => x.Id == product.CategoryId).First().Name,
-                    Images = _appEFContext.ProductImages.ToList().Where(x => x.ProductId == product.Id).Select(x => new ProductImageItemViewModel { Id = x.Id, Name = x.UrlImage }).ToList(),
-                });
-            }
-
+            var result = _mapper.Map<List<ProductGetHomePageViewModel>>(await _appEFContext.Products.Include(p => p.Images)
+                .Where(p => p.HomePageSelection)
+                .OrderBy(p => p.HomePagePriority).ToListAsync());
 
             return Ok(result);
         }
+        [HttpGet("getById")]
+        public async Task<IActionResult> GetById(int id)
+        {
 
+            var result = _mapper.Map<List<ProductGetHomePageViewModel>>(await _appEFContext.Products.Include(p => p.Images).ToListAsync()).FirstOrDefault(p=>p.Id == id);
+
+            return Ok(result);
+        }
+        [HttpPost("getRelatedProducts")]
+        public async Task<IActionResult> GetRelatedProducts(RelatedProductViewModel settings)
+        {
+
+            var result = _mapper.Map<List<ProductGetHomePageViewModel>>
+                (await _appEFContext.Products.Include(p => p.Images).Where(p=>p.CategoryId==settings.CategoryId && p.Id != settings.Id).Take(4).ToListAsync());
+
+            return Ok(result);
+        }
 
 
         [HttpPost("AddProduct")]
@@ -59,20 +66,17 @@ namespace WebShop.Controllers
         {
             if (model.Name != null)
             {
-                var product = new ProductEntity { Name = model.Name, 
-                    Description = model.Description, 
-                    Price = model.Price, 
-                    DateCreated = DateTime.UtcNow, 
-                    CategoryId = model.categoryId };
+                var product = _mapper.Map<ProductEntity>(model);
 
                 _appEFContext.Add(product);
                 _appEFContext.SaveChanges();
+
                 foreach (var idImg in model.ImagesID)
                 {
                     var image = await _appEFContext.ProductImages.SingleOrDefaultAsync(x => x.Id == idImg);
                     image.ProductId = product.Id;
                 }
-                
+
                 _appEFContext.SaveChanges();
                 return Ok(product);
             }

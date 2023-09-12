@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using WebShop.Data.Entities.Characteristics;
 
 namespace WebShop.Data.Entities
 {
@@ -21,6 +22,7 @@ namespace WebShop.Data.Entities
         [ForeignKey("Parent")]
         public int? ParentId { get; set; }
         public virtual CategoryEntity Parent { get; set; }
+        public virtual ICollection<CharacteristicsCategoryEntity> CharacteristicsCategory { get; set; }
 
         public virtual ICollection<CategoryEntity> Children { get; set; }
     }

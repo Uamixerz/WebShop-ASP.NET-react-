@@ -172,6 +172,75 @@ namespace WebShop.Migrations
                     b.ToTable("tblCategories");
                 });
 
+            modelBuilder.Entity("WebShop.Data.Entities.Characteristics.CharacteristicsCategoryEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CharacteristicId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CharacteristicId");
+
+                    b.ToTable("tblCharacteristicsCategory");
+                });
+
+            modelBuilder.Entity("WebShop.Data.Entities.Characteristics.CharacteristicsEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tblCharacteristics");
+                });
+
+            modelBuilder.Entity("WebShop.Data.Entities.Characteristics.CharacteristicsProductEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CharacteristicId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CharacteristicId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("tblCharacteristicsProduct");
+                });
+
             modelBuilder.Entity("WebShop.Data.Entities.Earth.CityEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -548,6 +617,12 @@ namespace WebShop.Migrations
                         .HasMaxLength(4000)
                         .HasColumnType("character varying(4000)");
 
+                    b.Property<int?>("HomePagePriority")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("HomePageSelection")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsDelete")
                         .HasColumnType("boolean");
 
@@ -555,6 +630,9 @@ namespace WebShop.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
+
+                    b.Property<int?>("OldPrice")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Price")
                         .HasColumnType("integer");
@@ -657,6 +735,44 @@ namespace WebShop.Migrations
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("WebShop.Data.Entities.Characteristics.CharacteristicsCategoryEntity", b =>
+                {
+                    b.HasOne("WebShop.Data.Entities.CategoryEntity", "Category")
+                        .WithMany("CharacteristicsCategory")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebShop.Data.Entities.Characteristics.CharacteristicsEntity", "Characteristic")
+                        .WithMany("CharacteristicsCategory")
+                        .HasForeignKey("CharacteristicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Characteristic");
+                });
+
+            modelBuilder.Entity("WebShop.Data.Entities.Characteristics.CharacteristicsProductEntity", b =>
+                {
+                    b.HasOne("WebShop.Data.Entities.Characteristics.CharacteristicsEntity", "Characteristic")
+                        .WithMany("CharacteristicsProduct")
+                        .HasForeignKey("CharacteristicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebShop.Data.Entities.Product.ProductEntity", "Product")
+                        .WithMany("CharacteristicsProduct")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Characteristic");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("WebShop.Data.Entities.Earth.CityEntity", b =>
@@ -799,7 +915,16 @@ namespace WebShop.Migrations
 
             modelBuilder.Entity("WebShop.Data.Entities.CategoryEntity", b =>
                 {
+                    b.Navigation("CharacteristicsCategory");
+
                     b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("WebShop.Data.Entities.Characteristics.CharacteristicsEntity", b =>
+                {
+                    b.Navigation("CharacteristicsCategory");
+
+                    b.Navigation("CharacteristicsProduct");
                 });
 
             modelBuilder.Entity("WebShop.Data.Entities.Earth.CityEntity", b =>
@@ -864,6 +989,8 @@ namespace WebShop.Migrations
             modelBuilder.Entity("WebShop.Data.Entities.Product.ProductEntity", b =>
                 {
                     b.Navigation("Baskets");
+
+                    b.Navigation("CharacteristicsProduct");
 
                     b.Navigation("Images");
 

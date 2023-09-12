@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
+using System.Text.Json.Serialization;
 using WebShop.Abstract;
 using WebShop.Data;
 using WebShop.Data.Entities.Identity;
@@ -57,7 +58,11 @@ builder.Services.AddAuthentication(options =>
         ClockSkew = TimeSpan.Zero
     };
 });
-
+//builder.Services.AddControllers()
+//    .AddJsonOptions(options =>
+//    {
+//        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+//    });
 
 var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 builder.Services.AddSwaggerGen(c =>
@@ -100,11 +105,11 @@ app.UseCors(x => x
                 .AllowCredentials());
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 app.SeedData();
 
 app.UseAuthentication();

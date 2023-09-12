@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using WebShop.Data.Entities.Basket;
+using WebShop.Data.Entities.Characteristics;
 using WebShop.Data.Entities.Order;
 
 namespace WebShop.Data.Entities.Product
@@ -16,6 +17,7 @@ namespace WebShop.Data.Entities.Product
         public string Name { get; set; }
         public int Priority { get; set; }
         public int Price { get; set; }
+        public int? OldPrice { get; set; }
 
         [StringLength(4000)]
         public string Description { get; set; }
@@ -24,8 +26,13 @@ namespace WebShop.Data.Entities.Product
         public int? CategoryId { get; set; }
         public virtual CategoryEntity Category { get; set; }
 
+        public bool HomePageSelection { get; set; }
+        public int? HomePagePriority { get; set; }
+
         public virtual ICollection<ProductImagesEntity> Images { get; set; }
         public virtual ICollection<BasketEntity> Baskets { get; set; }
         public virtual ICollection<OrderItemEntity> OrdersItem { get; set; }
+
+        public virtual ICollection<CharacteristicsProductEntity> CharacteristicsProduct { get; set; }
     }
 }

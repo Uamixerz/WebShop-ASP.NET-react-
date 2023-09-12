@@ -8,6 +8,7 @@ using System.Reflection.Emit;
 using WebShop.Data.Entities.Basket;
 using WebShop.Data.Entities.Earth;
 using WebShop.Data.Entities.Order;
+using WebShop.Data.Entities.Characteristics;
 
 namespace WebShop.Data
 {
@@ -37,6 +38,9 @@ namespace WebShop.Data
 
         public DbSet<PostOfficeEntity> PostOffices { get; set; }
 
+        public DbSet<CharacteristicsEntity> Characteristics { get; set; }
+        public DbSet<CharacteristicsProductEntity> CharacteristicsProduct { get; set; }
+        public DbSet<CharacteristicsCategoryEntity> CharacteristicsCategory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
